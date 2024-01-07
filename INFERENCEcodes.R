@@ -79,12 +79,76 @@ qexp(0.5,lhat)
 
 #2
 rm(list = ls())
+samp=c(22,23.9,20.9,23.8,25.0,24.0,21.7,23.1,23.1,23.8,22.8,22.5,23.0,23.0)
+PDF=function(x,a,b){
+  out=c()
+  for(i in 1:length(x)){
+    if (0<=x[i] & x[i]<b) {
+      out[i]=a*(x[i]^(a-1))/(b^a)
+    } else out[i]=0
+  }
+  return(out)
+}
+L=function(inp){-log(prod(PDF(samp,inp[1],inp[2])))}
+seed=c(0.7,max(samp)+0.5)
+low=c(0.00001,max(samp)+0.00001)
+upp=c(Inf,max(samp)+1)
+that=optim(seed,L,lower = low ,upper = upp,method = "L-BFGS-B")$par
+round(that,4)
+
+#3
+rm(list = ls())
+x=c(0.863,0.681,0.746,0.997,0.769,0.845,0.624,0.732,0.765,0.157,0.789,0.879,0.848,0.695,0.608,0.886,0.742,0.718,0.891,0.984)
+L=function(t){-log(prod(dbeta(x,t+1,1)))}
+#that=nlm(L,p=0.6)$estimate;that
+that=optim(0.5,L,lower = 0.00001,method = "L-BFGS-B")$par;that
+
+#4
+rm(list = ls())
+x=c(rep(2,12),rep(3,4),rep(4,3),rep(5,4),rep(6,4),rep(8,2),9,15,17,22,23,24,24,25,27,32,43)
+t=2; n=length(x)
+L=function(a){-(n*log(a)+n*a*log(t)-sum((a+1)*log(x)))}
+ahat=optim(0.5,L,lower = 0.00001,method = "L-BFGS-B")$par;ahat
 
 
+#MLE 3
+#1
+rm(list = ls())
+x=c(392,376,401,367,389,362,409,415,358,375)
+L=function(inp){-log(prod(dnorm(x,inp[1],inp[2])))}
+seed=c(mean(x),sd(x))
+that=optim(seed,L,method = "L-BFGS-B",lower = c(-Inf,0.00001))$par
+that[1];that[2]^2
 
+#2
+rm(list = ls())
+x=c(2.1,8.2,7.6,3.4,9.1,3.1)
+L=function(t){-log(prod(dunif(x,0,t)))}
+that=optim(4*mean(x),L,lower = max(x),method = "L-BFGS-B")$par;that
 
+#3
+rm(list = ls())
+x=c(2.1,8.2,7.6,3.4,9.1,3.1)
+L=function(t){-log(prod(dunif(x,t[1],t[2])))}
+seed=c(min(x)-1,max(x)+1)
+low=c(-Inf,max(x))
+upp=c(min(x),Inf)
+that=optim(seed,L,lower = low,upper = upp,method = "L-BFGS-B")$par;that
 
+#4
+rm(list = ls())
+x=c(1.29,0.36,1.33)
+L=function(t){-log(prod(dunif(x,t,2*t)))}
+that=optim(mean(x),L,method = "L-BFGS-B")$par
+that
+##### Solution doesn't exist #####
 
-
+#5
+rm(list = ls())
+x=c(rep(1,99),rep(2,104),rep(3,110),rep(4,62),rep(5,25),rep(6,10),rep(7,3))
+n=length(x)
+L=function(l){-(-n*l+(sum(x)*log(l))-sum(log(factorial(x)))-n*log(1-exp(-l)))}
+lhat=optim(mean(x),L,method = "L-BFGS-B",lower = 0.00001)$par
+round(lhat,3)
 
 
