@@ -44,6 +44,53 @@ anova(lsd)
 
 
 
+###### MISSING PLOT #####
+#1 missing
+rm(list = ls())
+library(MissingPlotRBD)
+p1=matrix(c(20.6,19.6,20.5,16.2,19.5,19,18.5,16.5,18.1,15.6,16.3,15.7,17.9,16.7,0,14.8,16,14.1,13.7,12.7),nrow = 4,ncol = 5);p1
+xhat=Missing.RBD(p1,3,4)$x.hat;xhat
+p1[3,4]=xhat
+y=c(p1[,1],p1[,2],p1[,3],p1[,4],p1[,5]);y
+treat=factor(c(rep(c("A","B","C","D"),5)))
+block=factor(c(rep(1,4),rep(2,4),rep(3,4),rep(4,4),rep(5,4)))
+data1=data.frame(y,treat,block);data1
+fit=lm(y~treat+block,data = data1)
+anova(fit)
+
+#2 missing
+rm(list = ls())
+p1=matrix(c(0,19.6,20.5,16.2,19.5,19,18.5,16.5,18.1,15.6,16.3,15.7,17.9,16.7,0,14.8,16,14.1,13.7,12.7),nrow = 4,ncol = 5);p1
+v=4;b=5
+ydd=sum(p1)
+rowtot=apply(p1,1,sum)
+coltot=apply(p1,2,sum)
+yi0d=rowtot[1];yi0d
+ydj0=coltot[1];ydj0
+yi1d=rowtot[3];yi1d
+ydj1=coltot[4];ydj1
+xhat=((b-1)*(v-1)*(v*yi0d+b*ydj0-ydd)-(v*yi1d+b*ydj1-ydd))/(((b-1)^2)*((v-1)^2)-1)
+yhat=((b-1)*(v-1)*(v*yi1d+b*ydj1-ydd)-(v*yi0d+b*ydj0-ydd))/(((b-1)^2)*((v-1)^2)-1)
+xhat;yhat
+p1[1,1]=xhat;p1[3,4]=yhat
+y=c(p1[,1],p1[,2],p1[,3],p1[,4],p1[,5]);y
+treat=factor(c(rep(c("A","B","C","D"),5)))
+block=factor(c(rep(1,4),rep(2,4),rep(3,4),rep(4,4),rep(5,4)))
+data1=data.frame(y,treat,block);data1
+fit=lm(y~treat+block,data = data1)
+anova(fit)
+
+
+###### ANCOVA #########
+rm(list=ls())
+x=c(108,136,138,159,146,99,117,90,141,106,184,198,196,198,210,124,95,116,112,123,140,177,189,142,216)
+y=c(73,102,118,104,81,98,74,96,111,95,94,79,96,98,102,107,95,97,80,98,49,82,73,86,81)
+block=factor(c(rep(1,5),rep(2,5),rep(3,5),rep(4,5),rep(5,5)))
+treat=factor(c(rep(c(1,2,3,4,5),5)))
+data1=data.frame(x,y,block,treat)
+data1
+fit=aov(y~treat+block+x,data=data1)
+summary(fit)
 
 
 
