@@ -152,3 +152,18 @@ lhat=optim(mean(x),L,method = "L-BFGS-B",lower = 0.00001)$par
 round(lhat,3)
 
 
+
+##### CHI-SQUARE TEST ######
+#1
+rm(list = ls())
+A=matrix(c(50,25,25,75,50,75,25,25,50),3,3)
+chisq.test(A)
+
+#2
+rm(list = ls())
+A=matrix(c(12,17,21,25,18,17,32,22,16,11,23,26),3,4)
+chisq.test(A)
+
+#3
+rm(list = ls())
+chisq.test()
