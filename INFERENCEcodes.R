@@ -166,4 +166,17 @@ chisq.test(A)
 
 #3
 rm(list = ls())
-chisq.test()
+x=c(0,1,2,3,4,5,6,7,8)
+f=c(0,4,10,15,12,12,6,6,7)
+lhat=sum(f*x)/sum(f)
+ExpProb=dpois(x,lhat)
+ExpProb[length(ExpProb)]=1-sum(ExpProb[-length(ExpProb)])
+Ei=sum(f)*ExpProb;Ei=round(Ei)
+data1=data.frame(x,f,ExpProb,Ei);data1
+data2=data.frame(f,Ei);data2
+Ei=c(sum(Ei[1:2]),Ei[3:9])
+f=c(sum(f[1:2]),f[3:9])
+data2=data.frame(f,Ei);data2
+chisqcal=sum((f-Ei)^2/Ei);chisqcal
+chisqtab=qchisq(0.05,length(f)-1-1,lower.tail = FALSE);chisqtab
+#Since chisqcal < chisqtab we do not reject H0
