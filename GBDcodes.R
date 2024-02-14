@@ -92,6 +92,14 @@ data1
 fit=aov(y~treat+block+x,data=data1)
 summary(fit)
 
+###### 2^3 Factorial Experiment #########
+b=5
+treat=factor(c(rep(1,b),rep(2,b),rep(3,b),rep(4,b),rep(5,b),rep(6,b),rep(7,b),rep(8,b)))
+block=factor(c(rep(seq(1:b),8)))
+yield=c(13,11,3,20,10,26,13,24,26,21,15,2,7,6,5,20,24,8,18,11,13,10,11,5,15,17,21,17,18,17,10,8,6,10,16,18,15,9,8,8)
+data1=data.frame(treat,block,yield);data1
+fit=aov(yield~treat+block,data = data1);fit
+summary(fit)
 
 
 
