@@ -180,3 +180,17 @@ data2=data.frame(f,Ei);data2
 chisqcal=sum((f-Ei)^2/Ei);chisqcal
 chisqtab=qchisq(0.05,length(f)-1-1,lower.tail = FALSE);chisqtab
 #Since chisqcal < chisqtab we do not reject H0
+
+#cont
+rm(list = ls())
+ll=c(0,50,100,150,200,300,400,500)
+ul=c(50,100,150,200,300,400,500,Inf)
+x=(ul+ll)/2;x=x[-length(x)];x
+f=c(100,68,48,31,42,21,27)
+lhat=sum(f*x)/sum(f);lhat
+prob=pexp(ul,1/lhat)-pexp(ll,1/lhat);prob
+Ei=prob*sum(f);Ei=round(Ei);Ei
+f=c(f,0)
+chisqcal=sum(((f-Ei)^2)/Ei);chisqcal
+chisqtab=qchisq(0.05,length(f)-1-1,lower.tail = FALSE);chisqtab
+#Since chisqcal > chisqtab we reject H0
